@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% block title %}Please log in to continue{% endblock title %}
+{% block app_content %}
+  <div class="form-screen">
+    <a href="{{ url_for('main.home') }}" class="spur-logo">
+      <i class="fas fa-money"></i> <span>FTrack</span>
+    </a>
+    <div class="card account-dialog">
+      <div class="card-header bg-primary text-white"> {{ _('Please sign in') }}</div>
+      <div class="card-body">
+        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+          {{ wtf.quick_form(login_user_form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% include "security/_menu.html" %}
+{% endblock app_content %}
+  {{ login_user_form.hidden_tag() }}
+  {{ render_field_with_errors(login_user_form.email) }}
+  {{ render_field_with_errors(login_user_form.password) }}
+  {{ render_field_with_errors(login_user_form.remember) }}
+  {{ render_field(login_user_form.next) }}
+  {{ render_field(login_user_form.submit) }}
