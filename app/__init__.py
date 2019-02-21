@@ -16,7 +16,6 @@ migrate = Migrate()
 mail = Mail()
 bootstrap = Bootstrap()
 security = Security()
-# sass = Scss()
 
 
 def create_app(config_class=Config):
