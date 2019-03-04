@@ -23,4 +23,11 @@ class User(db.Model, UserMixin):
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
+    def requires_authentication(self):
+        return not self.starling_authenticated() or not self.ynab_authenticated()
 
+    def starling_authenticated(self):
+        return False
+
+    def ynab_authenticated(self):
+        return False

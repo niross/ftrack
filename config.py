@@ -21,3 +21,6 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['nick.ir.ross@gmail.com']
 
+    # YNAB
+    YNAB_CLIENT_ID = os.environ.get('YNAB_CLIENT_ID')
+    YNAB_CLIENT_SECRET = os.environ.get('YNAB_CLIENT_SECRET')

@@ -109,3 +109,4 @@ venv.bak/
 # FTrack
 ftrack.db
 app/static/css/compiled/*.css
+demo-templates

@@ -1,0 +1,20 @@
+<div class="dash-nav dash-nav-dark">
+  <header>
+    <a href="#!" class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </a>
+    <a href="{{ url_for('main.home') }}" class="spur-logo">
+      <i class="fas fa-bolt"></i> <span>FTrack</span>
+    </a>
+  </header>
+  <nav class="dash-nav-list">
+    <a href="{{ url_for('main.home') }}" class="dash-nav-item">
+      <i class="fas fa-home"></i> Dashboard
+    </a>
+  </nav>
+  <nav class="dash-nav-list">
+    <a href="{{ url_for('main.platform_auth') }}" class="dash-nav-item">
+      <i class="fas fa-magic"></i> Integrations
+    </a>
+  </nav>
+</div>
