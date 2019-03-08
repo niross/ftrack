@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    ynab_auth_code = db.Column(db.String(255))
 
     def requires_authentication(self):
         return not self.starling_authenticated() or not self.ynab_authenticated()
@@ -30,4 +31,4 @@ class User(db.Model, UserMixin):
         return False
 
     def ynab_authenticated(self):
-        return False
+        return self.ynab_auth_code is not None

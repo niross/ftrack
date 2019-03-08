@@ -4,7 +4,6 @@ Flask-Migrate==2.3.1
 ipython==7.2.0
 Jinja2==2.10
 SQLAlchemy==1.2.15
-#Flask-Bootstrap==3.3.7.1 - does not support bs4
 bootstrap-flask==1.0.9
 Flask-Login==0.4.1
 Flask-WTF==0.14.2
@@ -12,3 +11,5 @@ python-dotenv==0.10.1
 flask-security==3.0.0
 Flask-Scss==0.5
 bcrypt==3.1.6
+flask-dance==1.4.0
+Flask-Dance[sqla]
