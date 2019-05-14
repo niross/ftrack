@@ -24,3 +24,7 @@ class Config:
     # YNAB
     YNAB_CLIENT_ID = os.environ.get('YNAB_CLIENT_ID')
     YNAB_CLIENT_SECRET = os.environ.get('YNAB_CLIENT_SECRET')
+
+    # Starling - TODO: Not implemented yet
+    STARLING_CLIENT_ID = os.environ.get('STARLING_CLIENT_ID')
+    STARLING_CLIENT_SECRET = os.environ.get('STARLING_CLIENT_SECRET')

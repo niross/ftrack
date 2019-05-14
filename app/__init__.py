@@ -3,7 +3,7 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_dance import OAuth2ConsumerBlueprint
+from flask_babel import Babel
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_scss import Scss
@@ -17,6 +17,7 @@ migrate = Migrate()
 mail = Mail()
 bootstrap = Bootstrap()
 security = Security()
+babel = Babel()
 
 
 def create_app(config_class=Config):
@@ -26,6 +27,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     mail.init_app(app)
     bootstrap.init_app(app)
+    babel.init_app(app)
     Scss(app, asset_dir='app/static/sass', static_dir='app/static/css/compiled')
 
     from app.main import bp as main_bp  # noqa
@@ -40,6 +42,9 @@ def create_app(config_class=Config):
         app.config['YNAB_CLIENT_ID'], app.config['YNAB_CLIENT_SECRET']
     )
     app.register_blueprint(ynab_bp, url_prefix="/platform/auth")
+
+    from app.starling import bp as starling_bp
+    app.register_blueprint(starling_bp, url_prefix="/platform/auth")
 
     if not app.debug and not app.testing:
         fh = RotatingFileHandler(config_class.LOG_FILE, maxBytes=10240, backupCount=10)

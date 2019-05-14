@@ -1,4 +1,9 @@
 {% extends 'authenticated_base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block scripts %}
+  {{ super() }}
+  <script src="/static/js/platform-auth.js"></script>
+{% endblock scripts %}
 {% block title %}Platform Authentication{% endblock title %}
 {% block dash_content %}
   <div class="row justify-content-md-center">
@@ -16,7 +21,7 @@
               <a class="spur-card-menu-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                 {% if current_user.starling_authenticated() %}
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{ url_for('main.starling_unlink') }}">
                     <i class="fas fa-unlink"></i> Unlink Starling Account
                   </a>
                 {% else %}
@@ -33,7 +38,7 @@
             <div class="big-thumbs-up text-success">
               <i class="fas fa-thumbs-up"></i>
             </div>
-            <p class="text-center">{{ _('Nice one, you\'re all set up to track your Starling transactions with FTrack') }}.</p>
+            <p class="text-center">{{ _('Nice, you\'re all set up to track Starling transactions') }}.</p>
           {% else %}
             <div class="big-thumbs-up text-danger">
               <i class="fas fa-thumbs-down"></i>
@@ -41,7 +46,7 @@
             <p class="text-center">{{ _('Please associate your Starling account to start tracking transactions.') }}.</p>
             <p class="text-center">
               <br />
-              <a href="" class="btn btn-primary btn-lg">
+              <a href="" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#starling-connect-modal">
                 {{ _('Sign in with Starling now') }} <i class="fas fa-sign-in-alt"></i>
               </a>
             </p>
@@ -88,7 +93,7 @@
             <p class="text-center">{{ _('Please associate your YNAB account to get started sending transactions.') }}.</p>
             <p class="text-center">
               <br />
-              <a href="{{ url_for("ynab.login") }}" class="btn btn-primary btn-lg">
+              <a href="{{ url_for('ynab.login') }}" class="btn btn-primary btn-lg">
                 {{ _('Sign in with YNAB now') }} <i class="fas fa-sign-in-alt"></i>
               </a>
             </p>
@@ -97,4 +102,68 @@
       </div>
     </div>
   </div>
+
+<div id="starling-connect-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="starling-connect-modal-label" aria-hidden="false" data-show="{% if show_starling_modal %}true{% else %}false{% endif %}">
+  <div class="modal-dialog" role="document">
+    <form action="{{ url_for('main.platform_auth') }}" method="POST">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="starling-connect-modal-label">
+            Connect to Starling
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Enter your Starling personal token below</p>
+          <div>
+            <p>
+              <a href="#starling-help-collapse" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="starling-help-collapse">
+                Need help?
+              </a>
+              <div id="starling-help-collapse" class="collapse">
+                <div class="card card-body">
+                  <p>To access your starling account you will need to generate a personal token.</p>
+                  <p>Follow these steps to generate the token then save it using the form below.</p>
+                  <p>
+                    <ol>
+                      <li>Sign up for a <a href="https://developer.starlingbank.com/" target="_blank">Starling Developer Account</a></li>
+                      <li>Head for the <a href="https://developer.starlingbank.com/personal/token">Create Personal Token Page</a></li>
+                      <li>Enter a descriptive token name</li>
+                      <li>
+                        Select the following scopes
+                        <ul>
+                          <li>account:read</li>
+                          <li>balance:read</li>
+                          <li>confirmation-of-funds:read</li>
+                          <li>mandate:read</li>
+                          <li>pay-local:read</li>
+                          <li>transaction:read</li>
+                        </ul>
+                      </li>
+                      <li>Click the create button</li>
+                      <li>Copy the generated token and paste it below</li>
+                    </ol>
+                  </p>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div>
+            {{ starling_form.hidden_tag() }}
+            {{ wtf.form_errors(starling_form, hiddens='only') }}
+            {{ wtf.form_field(starling_form.starling_auth_code) }}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          {{ wtf.form_field(starling_form.submit, button_map={'submit': 'primary'}) }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock dash_content %}
