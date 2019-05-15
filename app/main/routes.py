@@ -24,11 +24,13 @@ def platform_auth():
     show_starling_modal = False
     if form.validate_on_submit():
         current_user.starling_auth_code = form.starling_auth_code.data
+        current_user.starling_webhook_secret = form.starling_webhook_secret.data
         db.session.commit()
         flash('Your changes have been saved')
         return redirect(url_for('main.platform_auth'))
     elif request.method == 'GET':
         form.starling_auth_code.data = current_user.starling_auth_code
+        form.starling_webhook_secret.data = current_user.starling_webhook_secret
     else:
         show_starling_modal = True
 

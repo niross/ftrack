@@ -154,6 +154,7 @@
             {{ starling_form.hidden_tag() }}
             {{ wtf.form_errors(starling_form, hiddens='only') }}
             {{ wtf.form_field(starling_form.starling_auth_code) }}
+            {{ wtf.form_field(starling_form.starling_webhook_secret) }}
           </div>
         </div>
         <div class="modal-footer">

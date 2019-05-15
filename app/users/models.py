@@ -28,6 +28,7 @@ class User(db.Model, UserMixin):
     ynab_auth_code = db.Column(db.String(255), nullable=True)
     uuid = db.Column(db.String(36), unique=True, nullable=True)
     starling_auth_code = db.Column(db.String(255), nullable=True)
+    starling_webhook_secret = db.Column(db.String(255), nullable=True)
 
     def requires_authentication(self):
         return not self.starling_authenticated() or not self.ynab_authenticated()

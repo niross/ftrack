@@ -12,4 +12,11 @@ class StarlingAuthForm(FlaskForm):
             Length(min=64, max=64)
         ]
     )
+    starling_webhook_secret = StringField(
+        _l('Starling Personal Webhook Production Secret'),
+        validators=[
+            DataRequired(),
+            Length(min=36, max=36)
+        ]
+    )
     submit = SubmitField(label=_l('Connect'))
