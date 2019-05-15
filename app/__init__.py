@@ -44,7 +44,7 @@ def create_app(config_class=Config):
     app.register_blueprint(ynab_bp, url_prefix="/platform/auth")
 
     from app.starling import bp as starling_bp
-    app.register_blueprint(starling_bp, url_prefix="/platform/auth")
+    app.register_blueprint(starling_bp, url_prefix="/platform/starling")
 
     if not app.debug and not app.testing:
         fh = RotatingFileHandler(config_class.LOG_FILE, maxBytes=10240, backupCount=10)
