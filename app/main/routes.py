@@ -4,7 +4,8 @@ from flask_login import login_required, current_user
 from app import db
 from app.main import bp
 from app.main.decorators import requires_external_auth
-from app.users.forms import StarlingAuthForm
+from app.users.forms import PlatformAuthForm
+from app.ynab.api import YNABApi
 
 
 @bp.route('/')
@@ -20,24 +21,35 @@ def home():
 @bp.route('/platform/auth', methods=['GET', 'POST'])
 @login_required
 def platform_auth():
-    form = StarlingAuthForm()
-    show_starling_modal = False
+    form = PlatformAuthForm()
+    if current_user.ynab_auth_code is not None:
+        ynab_api = YNABApi(current_user)
+
+        form.ynab_account_id.choices = [(None, '-- Select an Account --')]
+        for account in ynab_api.get_accounts()['data']['accounts']:
+            form.ynab_account_id.choices.append(
+                (account['id'], account['name'])
+            )
+
     if form.validate_on_submit():
         current_user.starling_auth_code = form.starling_auth_code.data
         current_user.starling_webhook_secret = form.starling_webhook_secret.data
+        current_user.ynab_auth_code = form.ynab_auth_code.data
+        current_user.ynab_account_id = form.ynab_account_id.data
         db.session.commit()
-        flash('Your changes have been saved')
+        flash('Your changes have been saved', category='success')
         return redirect(url_for('main.platform_auth'))
     elif request.method == 'GET':
         form.starling_auth_code.data = current_user.starling_auth_code
         form.starling_webhook_secret.data = current_user.starling_webhook_secret
+        form.ynab_auth_code.data = current_user.ynab_auth_code
+        form.ynab_account_id.data = current_user.ynab_account_id
     else:
-        show_starling_modal = True
+        flash('Please fix any errors on the form', category='danger')
 
     return render_template(
         'main/platform_auth.html',
-        starling_form=form,
-        show_starling_modal=show_starling_modal
+        form=form
     )
 
 

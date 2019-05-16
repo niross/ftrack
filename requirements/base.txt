@@ -11,6 +11,4 @@ python-dotenv==0.10.1
 flask-security==3.0.0
 Flask-Scss==0.5
 bcrypt==3.1.6
-flask-dance==1.4.0
-Flask-Dance[sqla]
 flask-babel==0.12.2

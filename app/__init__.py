@@ -37,11 +37,8 @@ def create_app(config_class=Config):
     app.register_blueprint(users_bp)
     security.init_app(app, user_datastore)
 
-    from app.ynab import make_ynab_blueprint
-    ynab_bp = make_ynab_blueprint(
-        app.config['YNAB_CLIENT_ID'], app.config['YNAB_CLIENT_SECRET']
-    )
-    app.register_blueprint(ynab_bp, url_prefix="/platform/auth")
+    from app.ynab import bp as ynab_bp
+    app.register_blueprint(ynab_bp, url_prefix="/platform/ynab")
 
     from app.starling import bp as starling_bp
     app.register_blueprint(starling_bp, url_prefix="/platform/starling")
