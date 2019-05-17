@@ -27,6 +27,7 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     ynab_auth_code = db.Column(db.String(255), nullable=True)
     ynab_account_id = db.Column(db.String(36), nullable=True)
+    ynab_category_id = db.Column(db.String(36), nullable=True)
     uuid = db.Column(db.String(36), unique=True, nullable=True)
     starling_auth_code = db.Column(db.String(255), nullable=True)
     starling_webhook_secret = db.Column(db.String(255), nullable=True)
@@ -39,7 +40,8 @@ class User(db.Model, UserMixin):
 
     def ynab_authenticated(self):
         return self.ynab_auth_code is not None \
-               and self.ynab_account_id is not None
+               and self.ynab_account_id is not None \
+               and self.ynab_category_id is not None
 
 
 @event.listens_for(User, 'before_insert')

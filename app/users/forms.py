@@ -31,6 +31,11 @@ class PlatformAuthForm(FlaskForm):
         ]
     )
     ynab_account_id = SelectField(
-        _l('Select your Starling Account')
+        _l('Select your Starling Account'),
+        choices=[(None, '-- Select an Account --')]
+    )
+    ynab_category_id = SelectField(
+        _l('Select your Default Category'),
+        choices=[(None, '-- Select a Category --')]
     )
     submit = SubmitField(label=_l('Save'))

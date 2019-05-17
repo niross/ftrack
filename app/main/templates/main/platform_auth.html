@@ -30,6 +30,7 @@
                 <legend>You Need a Budget</legend>
                 {{ wtf.form_field(form.ynab_auth_code) }}
                 {{ wtf.form_field(form.ynab_account_id) }}
+                {{ wtf.form_field(form.ynab_category_id) }}
               </fieldset>
               {{ wtf.form_field(form.submit, button_map={'submit': 'primary'}) }}
             </form>

@@ -1,3 +1,6 @@
+import json
+from datetime import datetime
+
 import requests
 
 
@@ -14,9 +17,9 @@ class YNABApi:
         return self.session.get(BASE_URL + endpoint)
 
     def post(self, endpoint, data):
-        return self.session.get(
+        return self.session.post(
             BASE_URL + endpoint,
-            data=data
+            json=data
         )
 
     def get_accounts(self):
@@ -25,17 +28,26 @@ class YNABApi:
     def get_budgets(self):
         return self.get('/budgets').json()
 
-    def create_transaction(self, trans_data):
-        self.post('/budgets/last-used/transactions', {
-            'transaction': {
-                'account_id': 'string',
-                'date': 'string',
-                'amount': 0,
-                'payee_id': 'string',
-                'payee_name': 'string',
-                'category_id': 'string',
-                'memo': 'Added by FTrack',
-                'cleared': 'cleared',
-                'approved': True,
-            }
+    def get_categories(self):
+        return self.get('/budgets/last-used/categories').json()
+
+    def get_payees(self):
+        return self.get('/budgets/last-used/payees').json()
+
+    def get_transactions(self):
+        return self.get('/budgets/last-used/transactions').json()
+
+    def create_transaction(self, amount, payee):
+        trans_data = {
+            'account_id': self.user.ynab_account_id,
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'amount': int(amount * 1000),
+            'payee_name': payee,
+            'category_id': self.user.ynab_category_id,
+            'memo': 'Added by FTrack',
+            'approved': True,
+        }
+        resp = self.post('/budgets/last-used/transactions', {
+            'transaction': trans_data
         })
+        return resp.json()
