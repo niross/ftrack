@@ -31,7 +31,7 @@ class PlatformAuthForm(FlaskForm):
         ]
     )
     ynab_account_id = SelectField(
-        _l('Select your Starling Account'),
+        _l('Select your Starling Account on YNAB'),
         choices=[(None, '-- Select an Account --')]
     )
     ynab_category_id = SelectField(

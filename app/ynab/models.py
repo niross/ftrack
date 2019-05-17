@@ -3,6 +3,7 @@ from app import db
 
 class YNABTransaction(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
+    starling_transaction = db.Column(db.ForeignKey('starling_transaction.id'))
     account_id = db.Column(db.String(255))
     account_name = db.Column(db.String(255))
     amount = db.Column(db.Integer())
