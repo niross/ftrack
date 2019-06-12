@@ -6,13 +6,13 @@ class StarlingWebhookParser:
 
     def parse(self):
         if hasattr(self, '_parse_' + self.trans_type.lower()):
-            return {
-                'transaction_uid': self.content['transactionUid'],
-                'amount': self.content['amount'],
-                'transaction_type': self.content['type'],
-                'payee': self.content['counterParty'],
-            }
+            return getattr(self, '_parse_' + self.trans_type.lower())
         raise NotImplementedError('No parser exists for type {}'.format(self.trans_type))
 
     def _parse_transaction_card(self):
-        raise Exception('this worked')
+        return {
+            'transaction_uid': self.content['transactionUid'],
+            'amount': self.content['amount'],
+            'transaction_type': self.content['type'],
+            'payee': self.content['counterParty'],
+        }

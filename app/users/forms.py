@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_babel import lazy_gettext as _l
 from wtforms import StringField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Optional
 from wtforms.widgets import PasswordInput
 
 
@@ -32,10 +32,12 @@ class PlatformAuthForm(FlaskForm):
     )
     ynab_account_id = SelectField(
         _l('Select your Starling Account on YNAB'),
-        choices=[(None, '-- Select an Account --')]
+        choices=[('', '-- Select an Account --')],
+        validators=[Optional()]
     )
     ynab_category_id = SelectField(
         _l('Select your Default Category'),
-        choices=[(None, '-- Select a Category --')]
+        choices=[('', '-- Select a Category --')],
+        validators=[Optional()]
     )
     submit = SubmitField(label=_l('Save'))

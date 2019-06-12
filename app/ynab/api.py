@@ -41,7 +41,7 @@ class YNABApi:
         trans_data = {
             'account_id': self.user.ynab_account_id,
             'date': datetime.now().strftime('%Y-%m-%d'),
-            'amount': int(amount * 1000),
+            'amount': int(amount),
             'payee_name': payee,
             'category_id': self.user.ynab_category_id,
             'memo': 'Added by FTrack',

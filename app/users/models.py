@@ -40,8 +40,8 @@ class User(db.Model, UserMixin):
 
     def ynab_authenticated(self):
         return self.ynab_auth_code is not None \
-               and self.ynab_account_id is not None \
-               and self.ynab_category_id is not None
+               and self.ynab_account_id not in ['', None] \
+               and self.ynab_category_id not in ['', None]
 
 
 @event.listens_for(User, 'before_insert')
