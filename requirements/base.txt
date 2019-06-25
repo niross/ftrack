@@ -1,7 +1,6 @@
 Flask==1.0.2
 Flask-Mail==0.9.1
 Flask-Migrate==2.3.1
-ipython==7.2.0
 Jinja2==2.10
 SQLAlchemy==1.2.15
 bootstrap-flask==1.0.9
@@ -12,3 +11,4 @@ flask-security==3.0.0
 Flask-Scss==0.5
 bcrypt==3.1.6
 flask-babel==0.12.2
+requests==2.22.0

@@ -1,1 +1,2 @@
-pytest==4.6.2
+-r base.txt
+ipython==5.8.0
